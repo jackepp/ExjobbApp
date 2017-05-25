@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">LoginRegister</string>
+
+    <string-array name="tasks">
+        <item>hej</item>
+    </string-array>
+    <string-array name="times">
+        <item>hej</item>
+    </string-array>
 </resources>

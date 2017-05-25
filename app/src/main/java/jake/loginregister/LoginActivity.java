@@ -1,23 +1,19 @@
 package jake.loginregister;
 
-import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
+import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
 public class LoginActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,64 +22,50 @@ public class LoginActivity extends AppCompatActivity {
         final EditText etEmail = (EditText) findViewById(R.id.etEmail);
         final EditText etPassword = (EditText) findViewById(R.id.etPassword);
 
+        final String email = etEmail.getText().toString();
+        final String password = etPassword.getText().toString();
+
+
         final Button bLogin = (Button) findViewById(R.id.bLogin);
-
-        Log.d("CHECKPOINT", "oncreate() is being executed");
-
-        /*bLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent loginIntent = new Intent(LoginActivity.this, UserAreaActivity.class);
-                LoginActivity.this.startActivity(loginIntent);
-            }
-        });*/
+        final TextView message = (TextView) findViewById(R.id.message);
+        final TextView errmsg = (TextView) findViewById(R.id.errmsg);
         bLogin.setOnClickListener(new View.OnClickListener(){
-            @Override
             public void onClick(View v) {
+                final String url1 = "http://130.240.5.53:8080/signin?email=" + email + "&password=" + password;
 
-                final String email = etEmail.getText().toString();
-                final String password = etPassword.getText().toString();
+                final String url2 = "http://130.240.5.53:8080/signin?email=viktor_atterlonn@live.se&password=123";
 
-                Log.d("CHECKPOINT", "onClick()");
+                StringBuilder server_url = new StringBuilder("http://130.240.5.53:8080/signin?email=");
+                server_url.append(email);
+                server_url.append("&password=");
+                server_url.append(password);
+                final String url3 = server_url.toString();
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("CHECKPOINT", "onResponseStart");
-                        try {
-                            Log.d("CHECKPOINT", "try");
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean auth = jsonResponse.getBoolean("auth");
+                final String url = url2;
 
-                            if (auth) {
-                                String name = jsonResponse.getString("name");
-                                String level = jsonResponse.getString("level");
+                Log.d("CHECKPOINT", "LoginActivity.onClick()");
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("CHECKPOINT", "LoginActivity.onResponse()");
+                                errmsg.setText(url);
+                                message.setText(response);
 
-                                Intent intent = new Intent(LoginActivity.this, UserAreaActivity.class);
-                                intent.putExtra("name", name);
-                                intent.putExtra("level", level);
-
-                                LoginActivity.this.startActivity(intent);
-
-                            } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                builder.setMessage("Login Failed");
-                                builder.setNegativeButton("Try again", null);
-                                builder.create();
-                                builder.show();
                             }
+                        }, new Response.ErrorListener() {
+                            public void onErrorResponse(VolleyError error){
+                                Log.d("CHECKPOINT", "LoginActivity.onErrorResponse()");
 
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-                LoginRequest loginRequest = new LoginRequest(email, password,responseListener);
-                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                queue.add(loginRequest);
-                Log.d("CHECKPOINT", "queue");
+                                message.setText("No response from webserver.");
+                                error.printStackTrace();
+                                System.out.println(error.getStackTrace());
+                            }
+                });
+                Singleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
             }
         });
-     }
+
+    }
+
 }
