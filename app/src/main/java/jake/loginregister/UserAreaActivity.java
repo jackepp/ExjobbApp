@@ -14,7 +14,6 @@ public class UserAreaActivity extends AppCompatActivity {
 
         final TextView welcomeMessage = (TextView) findViewById(R.id.welcomeMessage);
 
-
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
         //String email = intent.getStringExtra("email");

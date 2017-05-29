@@ -1,5 +1,6 @@
 package jake.loginregister;
 
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,35 +14,36 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+
 public class LoginActivity extends AppCompatActivity {
+
+    public EditText etEmail;
+    public EditText etPassword;
+    public String email;
+    public String password;
+    public String url;
+
+    public Button bLogin;
+    public TextView message;
+    public TextView errmsg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final EditText etEmail = (EditText) findViewById(R.id.etEmail);
-        final EditText etPassword = (EditText) findViewById(R.id.etPassword);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+        etPassword = (EditText) findViewById(R.id.etPassword);
+        bLogin = (Button) findViewById(R.id.bLogin);
+        message = (TextView) findViewById(R.id.message);
+        errmsg = (TextView) findViewById(R.id.errmsg);
 
-        final String email = etEmail.getText().toString();
-        final String password = etPassword.getText().toString();
-
-
-        final Button bLogin = (Button) findViewById(R.id.bLogin);
-        final TextView message = (TextView) findViewById(R.id.message);
-        final TextView errmsg = (TextView) findViewById(R.id.errmsg);
         bLogin.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                final String url1 = "http://130.240.5.53:8080/signin?email=" + email + "&password=" + password;
 
-                final String url2 = "http://130.240.5.53:8080/signin?email=viktor_atterlonn@live.se&password=123";
+                email = etEmail.getText().toString();
+                password = etPassword.getText().toString();
 
-                StringBuilder server_url = new StringBuilder("http://130.240.5.53:8080/signin?email=");
-                server_url.append(email);
-                server_url.append("&password=");
-                server_url.append(password);
-                final String url3 = server_url.toString();
-
-                final String url = url2;
+                url = "http://130.240.5.53:8080/signin?email=" + email + "&password=" + password;
 
                 Log.d("CHECKPOINT", "LoginActivity.onClick()");
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -51,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("CHECKPOINT", "LoginActivity.onResponse()");
                                 errmsg.setText(url);
                                 message.setText(response);
-
                             }
                         }, new Response.ErrorListener() {
                             public void onErrorResponse(VolleyError error){
