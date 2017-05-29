@@ -34,7 +34,7 @@ public class Singleton {
             return mInstance;
         }
 
-        public void addToRequestQueue(Request request){
+        public<T> void addToRequestQueue(Request<T> request){
             requestQueue.add(request);
         }
 }

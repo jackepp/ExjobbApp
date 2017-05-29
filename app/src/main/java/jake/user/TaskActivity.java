@@ -8,9 +8,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.android.volley.toolbox.JsonArrayRequest;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import jake.loginregister.R;
 
 public class TaskActivity extends AppCompatActivity {
+
+    JSONObject jsonOject;
+    JSONArray jsonarray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,19 +29,10 @@ public class TaskActivity extends AppCompatActivity {
         Spinner timeList = (Spinner) findViewById(R.id.timeList);
         final Button bConfirmTask = (Button) findViewById(R.id.bConfirmTask);
 
-        ArrayAdapter<String> taskAdapter = new ArrayAdapter<String>(TaskActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.tasks));
-        taskAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        taskList.setAdapter(taskAdapter);
-
-        ArrayAdapter<String> timeAdapter = new ArrayAdapter<String>(TaskActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.times));
-        timeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timeList.setAdapter(timeAdapter);
-
 
         bConfirmTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("PRINT", "bConfirmTask.onClick()");
             }
         });
 
