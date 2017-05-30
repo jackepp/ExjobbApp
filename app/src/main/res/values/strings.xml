@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Järva MK</string>
+    <string name="base_url">http://130.240.5.53:8080</string>
 </resources>

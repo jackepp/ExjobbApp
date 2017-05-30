@@ -18,7 +18,6 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".UserAreaActivity" />
-        <!--<activity android:name="jake.user.TaskActivity"></activity>-->
     </application>
 
 </manifest>
