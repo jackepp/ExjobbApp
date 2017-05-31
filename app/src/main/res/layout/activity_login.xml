@@ -16,6 +16,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp">
 
+        <TextView
+            android:id="@+id/welcomeMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="casual"
+            android:text="Welcome"
+            />
 
 
         <ImageView
@@ -26,12 +33,6 @@
             android:layout_height="250dp"
             android:layout_centerHorizontal="true" />
 
-        <TextView
-            android:id="@+id/welcomeMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="cursive"
-            />
 
 
         <EditText
@@ -48,11 +49,10 @@
             android:id="@+id/etPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_vpn_key_black_24dp"
             android:ems="12"
             android:hint="Password"
-            android:inputType="textPassword"
-            android:drawableLeft="@drawable/ic_vpn_key_black_24dp"
-          />
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/bLogin"
