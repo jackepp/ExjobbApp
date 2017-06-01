@@ -1,7 +1,9 @@
 package jake.loginregister;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         bLogin = (Button) findViewById(R.id.bLogin);
+        message = (TextView) findViewById(R.id.message);
 
         bLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -51,20 +54,22 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
-                                    message.setText(
-                                            " Name: " + response.getString("name") +
-                                                    "\n Email: " + response.getString("email") +
-                                                    "\n Level: " + response.getString("level"));
-
+                                    if (response.getBoolean("auth") || response.getString("status") != "error") {
+                                        startActivity(new Intent(LoginActivity.this, jake.user.ProfileActivity.class));
+                                    } else {
+                                        Log.d("TAG", "ELSE");
+                                        Toast.makeText(LoginActivity.this, "Incorrect credentials, try again.", Toast.LENGTH_SHORT).show();
+                                        etEmail.getText().clear();
+                                        etPassword.getText().clear();
+                                    }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             }
                         }, new Response.ErrorListener() {
-
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "No response from web server.", Toast.LENGTH_SHORT).show();
                             }
                         });
                 Singleton.getInstance(LoginActivity.this).addToRequestQueue(jsonRequest);
