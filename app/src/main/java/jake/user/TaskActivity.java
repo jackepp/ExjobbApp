@@ -3,29 +3,35 @@ package jake.user;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import jake.loginregister.R;
 import jake.loginregister.Singleton;
 
-public class TaskActivity extends AppCompatActivity {
+public class TaskActivity extends AppCompatActivity{
 
-
-    TextView message;
     String url ="http://130.240.5.53:8080/tasks";
     String jsonUrl = "https://raw.githubusercontent.com/ianbar20/JSON-Volley-Tutorial/master/Example-JSON-Files/Example-Array.JSON";
     String data = "";
@@ -33,6 +39,12 @@ public class TaskActivity extends AppCompatActivity {
     String id;
     String name;
     String vph;
+    ArrayList<String> stringList;
+    ArrayList<Task> taskList;
+    Spinner spinnerTask;
+    Spinner spinnerTime;
+    ArrayAdapter<Task> adapter;
+    private static final String TAG = TaskActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +53,13 @@ public class TaskActivity extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(this);
 
-        message = (TextView) findViewById(R.id.message);
+        spinnerTask = (Spinner) findViewById(R.id.spinnerTask);
+        spinnerTime = (Spinner) findViewById(R.id.spinnerTime);
 
+        //stringList = new ArrayList<String>();
+        taskList = new ArrayList<Task>();
 
-       /* JsonArrayRequest arrayreq = new JsonArrayRequest(url,
+        JsonArrayRequest arrayreq = new JsonArrayRequest(url,
                 // The second parameter Listener overrides the method onResponse() and passes
                 //JSONArray as a parameter
                 new Response.Listener<JSONArray>() {
@@ -53,19 +68,18 @@ public class TaskActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         try{
-                            JSONObject Obj = response.getJSONObject(0);
-                            id = Obj.getString("id");
-                            name = Obj.getString("name");
-                            vph = Obj.getString("valuePerHour");
+                            for(int i = 0; i < response.length(); i++){
+                                JSONObject jresponse = response.getJSONObject(i);
 
-                            data = "Id " + id + "nColor Name: " + name +
-                                    "nHex Value : " + vph + "nnn";
-
-                            message.setText(data);
-
-                        } catch(JSONException e){
-                            e.printStackTrace();
+                                taskList.add(new Task(Integer.parseInt(jresponse.getString("id")),
+                                        jresponse.getString("name"),
+                                        Integer.parseInt(jresponse.getString("valuePerHour"))));
+                            }
                         }
+                        catch (Exception e){
+                            Log.e("Error", e.toString());
+                        }
+
                     }
                 },
                 // The final parameter overrides the method onErrorResponse() and passes VolleyError
@@ -74,65 +88,32 @@ public class TaskActivity extends AppCompatActivity {
                     @Override
                     // Handles errors that occur due to Volley
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("Volley", "Error");
+                        Log.e("Error", error.toString());
                     }
                 }
         );
 
-        */
-        JsonArrayRequest arrayreq = new JsonArrayRequest(jsonUrl,
-                // The second parameter Listener overrides the method onResponse() and passes
-                //JSONArray as a parameter
-                new Response.Listener<JSONArray>() {
 
-                    // Takes the response from the JSON request
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                            // Retrieves first JSON object in outer array
-                            JSONObject colorObj = response.getJSONObject(0);
-                            // Retrieves "colorArray" from the JSON object
-                            JSONArray colorArry = colorObj.getJSONArray("colorArray");
-                            // Iterates through the JSON Array getting objects and adding them
-                            //to the list view until there are no more objects in colorArray
+        adapter = new ArrayAdapter<>(TaskActivity.this, android.R.layout.simple_spinner_dropdown_item, taskList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTask.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        spinnerTask.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("TAG", Integer.toString(position));
+                Task task = (Task)parent.getItemAtPosition(position);
+                Log.i("TAG", Integer.toString(task.getTaskId()));
+                Toast.makeText(getBaseContext(),parent.getItemIdAtPosition(position)+ " selected.", Toast.LENGTH_SHORT).show();
+                spinnerTask.setSelection(position);
+            }
 
-                                //gets each JSON object within the JSON array
-                                JSONObject jsonObject = colorArry.getJSONObject(0);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-                                // Retrieves the string labeled "colorName" and "hexValue",
-                                // and converts them into javascript objects
-                                String color = jsonObject.getString("colorName");
-                                String hex = jsonObject.getString("hexValue");
-
-                                // Adds strings from the current object to the data string
-                                //spacing is included at the end to separate the results from
-                                //one another
-                                data = "Name: " + color + "\n"+
-                                        "Hex Value : " + hex;
-
-                            // Adds the data string to the TextView "results"
-                            message.setText(data);
-                        }
-                        // Try and catch are included to handle any errors due to JSON
-                        catch (JSONException e) {
-                            // If an error occurs, this prints the error to the log
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                // The final parameter overrides the method onErrorResponse() and passes VolleyError
-                //as a parameter
-                new Response.ErrorListener() {
-                    @Override
-                    // Handles errors that occur due to Volley
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("Volley", "Error");
-                    }
-                }
-        );
-        // Adds the JSON array request "arrayreq" to the request queue
+            }
+        });
         requestQueue.add(arrayreq);
-
-
+        Log.d(TAG, "hi");
     }
 }

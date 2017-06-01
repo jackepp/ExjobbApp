@@ -38,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         bLogin = (Button) findViewById(R.id.bLogin);
-        message = (TextView) findViewById(R.id.errmsg);
 
         bLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

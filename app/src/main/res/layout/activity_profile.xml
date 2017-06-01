@@ -1,15 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="jake.user.ProfileActivity">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways">
 
-    </LinearLayout>
-</RelativeLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:scaleType="centerCrop"
+                android:src="@android:color/white" />
+
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:id="@+id/linearLayout2"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:layout_above="@+id/linearLayout3"
+                android:layout_alignParentTop="true">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:src="#455A64"
+                    app:civ_border_color="@android:color/black"
+                    app:civ_border_width="4dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Jacob Permansson"
+                    android:textColor="@android:color/black"
+                    android:fontFamily="serif"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Beginner"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:fontFamily="serif"
+                    />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:progress="60"
+                    android:minHeight="50dip"/>
+
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="80dp"
+                    app:fabSize="normal"
+                    app:backgroundTint="@color/red"
+                    android:src="@drawable/ic_add_black_24dp"
+                    >
+
+                </android.support.design.widget.FloatingActionButton>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#455A64"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_alignParentBottom="true"
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:id="@+id/linearLayout3">
+
+                <GridLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:padding="16dp"
+                    android:rowCount="2"
+                    >
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:text="4"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold"
+                        android:textSize="40sp"
+                        android:fontFamily="serif"
+                        />
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:text="1337"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold"
+                        android:textSize="40sp"
+                        android:fontFamily="serif"
+                        />
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:text="1"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold"
+                        android:textSize="40sp"
+                        android:fontFamily="serif"
+                        />
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:text="Badges"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:fontFamily="serif"
+                        />
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginRight="60dp"
+                        android:text="Points"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:fontFamily="serif"
+                        />
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:text="Rank"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:fontFamily="serif"
+                        />
+                </GridLayout>
+            </LinearLayout>
+        </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
