@@ -46,15 +46,15 @@ public class LoginActivity extends AppCompatActivity {
 
                 url = "http://130.240.5.53:8080/signin?email=" + email + "&password=" + password;
 
-               jsonRequest = new JsonObjectRequest
+                jsonRequest = new JsonObjectRequest
                         (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
                                     message.setText(
                                             " Name: " + response.getString("name") +
-                                            "\n Email: " + response.getString("email") +
-                                            "\n Level: "+ response.getString("level"));
+                                                    "\n Email: " + response.getString("email") +
+                                                    "\n Level: " + response.getString("level"));
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -71,6 +71,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-            }
+    }
 
 }
