@@ -1,4 +1,4 @@
-package jake.user;
+package jake.helpclasses;
 
 /**
  * Created by jake on 2017-05-30.

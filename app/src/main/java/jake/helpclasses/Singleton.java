@@ -1,4 +1,4 @@
-package jake.loginregister;
+package jake.helpclasses;
 
 import android.content.Context;
 

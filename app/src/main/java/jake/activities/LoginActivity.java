@@ -1,7 +1,7 @@
-package jake.loginregister;
+package jake.activities;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,9 +17,12 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import jake.R;
+import jake.helpclasses.Singleton;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends Activity {
+
 
     public EditText etEmail;
     public EditText etPassword;
@@ -55,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                             public void onResponse(JSONObject response) {
                                 try {
                                     if (response.getBoolean("auth") || response.getString("status") != "error") {
-                                        startActivity(new Intent(LoginActivity.this, jake.user.ProfileActivity.class));
+                                        startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
                                     } else {
                                         Log.d("TAG", "ELSE");
                                         Toast.makeText(LoginActivity.this, "Incorrect credentials, try again.", Toast.LENGTH_SHORT).show();
