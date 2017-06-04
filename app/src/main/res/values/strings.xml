@@ -1,8 +1,6 @@
 <resources>
-    <string name="app_name">Järva MK</string>
+    <string name="app_name">Järva Motorklubb</string>
     <string name="base_url">http://130.240.5.53:8080</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_team">TeamActivity</string>
+
 </resources>

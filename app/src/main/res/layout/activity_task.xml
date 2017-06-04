@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="jake.activities.TaskActivity">
+    tools:context="jake.activities.TaskActivity"
+    style="@style/AppTheme">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -18,26 +19,42 @@
         <Spinner
             android:id="@+id/spinnerTask"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:backgroundTint="@android:color/black" />
         <Spinner
             android:id="@+id/spinnerTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:backgroundTint="@android:color/black"
             />
 
         <Button
             android:id="@+id/bConfirmTask"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Confirm"
-            style=""/>
+            android:text="Confirm" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select task:"
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/message"/>
+            android:text="Select hours:"
+            android:textColor="@android:color/black"/>
     </LinearLayout>
+
 
 
 </RelativeLayout>

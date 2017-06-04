@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,21 +18,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import jake.R;
 import jake.helpclasses.Singleton;
+import jake.helpclasses.User;
 
 
 public class LoginActivity extends Activity {
 
-
-    public EditText etEmail;
-    public EditText etPassword;
-    public String email;
-    public String password;
-    public String url;
-
-    public Button bLogin;
-    public TextView message;
-
-    public JsonObjectRequest jsonRequest;
+    private EditText etEmail;
+    private EditText etPassword;
+    private String email;
+    private String password;
+    private String url;
+    private Button bLogin;
+    private JsonObjectRequest jsonRequest;
+    public static User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +40,13 @@ public class LoginActivity extends Activity {
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         bLogin = (Button) findViewById(R.id.bLogin);
-        message = (TextView) findViewById(R.id.message);
 
         bLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 email = etEmail.getText().toString();
                 password = etPassword.getText().toString();
 
-                url = "http://130.240.5.53:8080/signin?email=" + email + "&password=" + password;
+                url = getResources().getString(R.string.base_url)+ "/signin?email=" + email + "&password=" + password;
 
                 jsonRequest = new JsonObjectRequest
                         (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
@@ -58,6 +54,7 @@ public class LoginActivity extends Activity {
                             public void onResponse(JSONObject response) {
                                 try {
                                     if (response.getBoolean("auth") || response.getString("status") != "error") {
+                                        user = new User(response);
                                         startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
                                     } else {
                                         Log.d("TAG", "ELSE");

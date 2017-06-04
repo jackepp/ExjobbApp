@@ -7,11 +7,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Badge3d"
+        android:text="Badge Fragment"
         android:textSize="40dp"
         android:textStyle="bold"
-        android:layout_centerInParent="true"
-        android:textColor="@android:color/white"/>
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>
 

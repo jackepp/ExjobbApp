@@ -2,8 +2,15 @@
 <resources>
     <color name="colorPrimary">#125688</color>
     <color name="colorPrimaryDark">#125688</color>
-    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="textColorPrimary">#696969</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#c8e8ff</color>
+
+
+
+    <color name="JarvaMKRed">#FF0103</color>
+    <color name="JarvaMKBlue">#0E267E</color>
+    <color name="JarvaMKBlack">#000000</color>
+    <color name="JarvaMKYellow">#FFFA04</color>
 </resources>
