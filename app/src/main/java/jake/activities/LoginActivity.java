@@ -55,7 +55,7 @@ public class LoginActivity extends Activity {
                                 try {
                                     if (response.getBoolean("auth") || response.getString("status") != "error") {
                                         user = new User(response);
-                                        startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                     } else {
                                         Log.d("TAG", "ELSE");
                                         Toast.makeText(LoginActivity.this, "Incorrect credentials, try again.", Toast.LENGTH_SHORT).show();

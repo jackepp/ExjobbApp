@@ -2,15 +2,143 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="jake.activities.ProfileActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:id="@+id/linearLayout2"
+        android:orientation="vertical"
+        android:layout_alignParentTop="false"
+        >
 
-    <TextView
-        android:layout_width="wrap_content"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:src="#455A64"
+            app:civ_border_color="@android:color/black"
+            app:civ_border_width="3dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="name here"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:id="@+id/name"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="level here"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+            android:id="@+id/level"
+            />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:progress="60"
+            android:minHeight="50dip"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            app:fabSize="normal"
+            android:src="@drawable/plus_white"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:id="@+id/fab"
+            >
+
+        </android.support.design.widget.FloatingActionButton>
+
+    </LinearLayout>
+    <GridLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Personal Fragment"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        android:layout_centerInParent="true"/>
+        android:background="@color/colorPrimary"
+        android:columnCount="3"
+        android:layout_gravity="bottom"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:rowCount="2">
+
+
+        <TextView
+            android:id="@+id/rank"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
+            android:text="N/A"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:id="@+id/points"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
+            android:text="N/A"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/badges"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
+            android:text="N/A"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"/>
+
+
+        <TextView
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
+            android:text="Rank"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:layout_marginLeft="20dp"
+            />
+
+        <TextView
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
+            android:text="Points"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"/>
+
+        <TextView
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
+            android:text="Badges"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:layout_marginRight="20dp"
+            />
+
+
+    </GridLayout>
 
 </RelativeLayout>
 

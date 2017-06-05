@@ -1,9 +1,7 @@
 package jake.activities;
 
-import android.app.Activity;
-
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -20,27 +18,30 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import jake.R;
-import jake.helpclasses.Task;
+import jake.helpclasses.ThreeColumn_ListAdapter;
 import jake.helpclasses.User;
 
 
-public class TeamActivity extends Activity {
+public class TeamActivity extends AppCompatActivity {
 
-    ListView listView;
-    ArrayAdapter<String> adapter;
+
     String url;
-    ArrayList<String> team = new ArrayList<String>();
+    ArrayList<User> scoreboard;
     RequestQueue requestQueue;
+    ListView listView;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_team);
+        setContentView(R.layout.viewcontents_layout);
+
         url = getResources().getString(R.string.base_url) + "/scoreboard";
         requestQueue = Volley.newRequestQueue(this);
         Log.d("TAG", "url: "+ url);
 
-        listView = (ListView) findViewById(R.id.mobile_list);
+        scoreboard = new ArrayList<>();
+        listView = (ListView)findViewById(R.id.listView);
 
         JsonArrayRequest arrayreq = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
@@ -48,11 +49,14 @@ public class TeamActivity extends Activity {
                 try {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject jresponse = response.getJSONObject(i);
-                        team.add(jresponse.getString("name"));
-                        Log.d("TAG", "jresponse.getString(): " + jresponse.getString("name"));
+                        Integer rank = i + 1;
+                        scoreboard.add(new User(rank.toString(), jresponse.getString("name"), jresponse.getString("points")));
                     }
-                    adapter = new ArrayAdapter<>(TeamActivity.this, R.layout.row_layout, R.id.textView1, team);
+
+                    ThreeColumn_ListAdapter adapter = new ThreeColumn_ListAdapter(TeamActivity.this, R.layout.list_adapter_view, scoreboard);
                     listView.setAdapter(adapter);
+                    //Log.d("TAG", scoreboard.get(0).getUserName() + String.valueOf(scoreboard.get(0).getUserPoints()));
+                   // Log.d("TAG", scoreboard.get(1).getUserName() + String.valueOf(scoreboard.get(1).getUserPoints()));
                 } catch (Exception e) {
                     Log.e("Error", e.toString());
                 }
@@ -66,6 +70,7 @@ public class TeamActivity extends Activity {
                 }
         );
         requestQueue.add(arrayreq);
+        //Log.d("TAG", "scoreboard.get(o).toString(): " + scoreboard.get(1).toString());
     }
 
 }

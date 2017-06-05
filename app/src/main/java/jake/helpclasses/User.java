@@ -14,6 +14,8 @@ public class User {
     private String email;
     private String usertype;
     private String level;
+    private String  points;
+    private String rank;
 
     public User(JSONObject info){
         try {
@@ -27,6 +29,14 @@ public class User {
             e.printStackTrace();
         }
     }
+
+    public User(String rank, String name, String points){
+        this.name = name;
+        this.points = points;
+        this.rank = rank;
+    }
+
+
     public int getUserid(){
         return id;
     }
@@ -43,6 +53,12 @@ public class User {
         return usertype;
     }public String getUserLevel(){
         return level;
+    }
+    public String getUserPoints(){
+        return points;
+    }
+    public String getUserRank(){
+        return rank;
     }
     @Override
     public String toString(){
