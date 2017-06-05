@@ -4,6 +4,8 @@ package jake.helpclasses;
  */
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,11 +37,12 @@ public class ThreeColumn_ListAdapter extends ArrayAdapter<User> {
         convertView = mInflater.inflate(mViewResourceId, null);
 
         User user = users.get(position);
+
+        Log.d("TAG", "position: " + position);
         TextView rank = (TextView) convertView.findViewById(R.id.rank);
         TextView name = (TextView) convertView.findViewById(R.id.name);
         TextView points = (TextView) convertView.findViewById(R.id.points);
-
-        if(position == 0){
+        if (position == 0) {
 
             rank.setText("Rank");
             //rank.setGravity(View.TEXT_ALIGNMENT_CENTER);
@@ -58,9 +61,7 @@ public class ThreeColumn_ListAdapter extends ArrayAdapter<User> {
                 }
             }
             return convertView;
-        }
-
-        else{
+        } else {
             if (user != null) {
                 if (rank != null) {
                     rank.setText(user.getUserRank());
@@ -74,7 +75,7 @@ public class ThreeColumn_ListAdapter extends ArrayAdapter<User> {
             }
             return convertView;
         }
-
-
     }
+
+
 }

@@ -3,6 +3,7 @@ package jake.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -42,6 +43,9 @@ public class TeamActivity extends AppCompatActivity {
 
         scoreboard = new ArrayList<>();
         listView = (ListView)findViewById(R.id.listView);
+        ViewGroup headerView = (ViewGroup)getLayoutInflater().inflate(R.layout.header_view,null);
+        listView.addHeaderView(headerView);
+
 
         JsonArrayRequest arrayreq = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
