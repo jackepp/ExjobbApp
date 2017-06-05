@@ -29,7 +29,6 @@ import java.util.ArrayList;
 
 import jake.helpclasses.Singleton;
 import jake.helpclasses.Task;
-import jake.R;
 import jake.helpclasses.User;
 
 

@@ -4,8 +4,7 @@ package jake.helpclasses;
  */
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +13,19 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import jake.R;
-import jake.helpclasses.User;
+import jake.activities.R;
+
 
 /**
  * Created by Mitch on 2016-05-06.
  */
-public class ThreeColumn_ListAdapter extends ArrayAdapter<User> {
+public class ScoreboardListAdapter extends ArrayAdapter<User> {
 
     private LayoutInflater mInflater;
     private ArrayList<User> users;
     private int mViewResourceId;
 
-    public ThreeColumn_ListAdapter(Context context, int textViewResourceId, ArrayList<User> users) {
+    public ScoreboardListAdapter(Context context, int textViewResourceId, ArrayList<User> users) {
         super(context, textViewResourceId, users);
         this.users = users;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -38,14 +37,12 @@ public class ThreeColumn_ListAdapter extends ArrayAdapter<User> {
 
         User user = users.get(position);
 
-        Log.d("TAG", "position: " + position);
         TextView rank = (TextView) convertView.findViewById(R.id.rank);
         TextView name = (TextView) convertView.findViewById(R.id.name);
         TextView points = (TextView) convertView.findViewById(R.id.points);
         if (position == 0) {
 
             rank.setText("Rank");
-            //rank.setGravity(View.TEXT_ALIGNMENT_CENTER);
             name.setText("Name");
             points.setText("Points");
 

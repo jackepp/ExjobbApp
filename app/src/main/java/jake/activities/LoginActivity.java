@@ -16,7 +16,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import jake.R;
 import jake.helpclasses.Singleton;
 import jake.helpclasses.User;
 

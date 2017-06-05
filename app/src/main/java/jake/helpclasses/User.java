@@ -51,7 +51,8 @@ public class User {
     }
     public String getUsertype(){
         return usertype;
-    }public String getUserLevel(){
+    }
+    public String getUserLevel(){
         return level;
     }
     public String getUserPoints(){

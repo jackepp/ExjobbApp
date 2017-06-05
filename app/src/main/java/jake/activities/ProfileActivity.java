@@ -3,7 +3,7 @@ package jake.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import jake.R;
+
 
 public class ProfileActivity extends AppCompatActivity {
     @Override
@@ -11,5 +11,4 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
     }
-
 }
