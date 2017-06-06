@@ -9,60 +9,51 @@ import org.json.JSONObject;
 
 public class User {
     private int id;
-    private String address;
-    private String name;
-    private String email;
-    private String usertype;
-    private String level;
-    private String  points;
-    private String rank;
+    private String address, name, level, points, rank;
 
-    public User(JSONObject info){
+    public User(JSONObject info) {
         try {
             this.id = Integer.parseInt(info.getString("id"));
             this.address = info.getString("address");
             this.name = info.getString("name");
-            this.email = info.getString("email");
-            this.usertype = info.getString("usertype");
             this.level = info.getString("level");
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public User(String rank, String name, String points){
+    public User(String rank, String name, String points) {
         this.name = name;
         this.points = points;
         this.rank = rank;
     }
 
-
-    public int getUserid(){
+    public int getUserid() {
         return id;
     }
-    public String getUserAddress(){
+
+    public String getUserAddress() {
         return address;
     }
-    public String getUserName(){
+
+    public String getUserName() {
         return name;
     }
-    public String getUserEmail(){
-        return email;
-    }
-    public String getUsertype(){
-        return usertype;
-    }
-    public String getUserLevel(){
+
+    public String getUserLevel() {
         return level;
     }
-    public String getUserPoints(){
+
+    public String getUserPoints() {
         return points;
     }
-    public String getUserRank(){
+
+    public String getUserRank() {
         return rank;
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return name;
     }
 }

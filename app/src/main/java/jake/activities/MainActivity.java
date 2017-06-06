@@ -1,6 +1,5 @@
 package jake.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,7 +9,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,13 +22,11 @@ import jake.fragments.BadgeFragment;
 import jake.fragments.PersonalFragment;
 import jake.fragments.TeamFragment;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    TextView name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +34,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("");
+        setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
     }
@@ -58,10 +53,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
 
-            case R.id.settings:
-                startActivity(new Intent(this, SettingsActivity.class));
+            case R.id.action_changepassword:
+                startActivity(new Intent(this, ChangePasswordActivity.class));
+                return true;
+
+            case R.id.action_signout:
+
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.putExtra("finish", true);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -94,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Adding fragments to ViewPager
+     *
      * @param viewPager
      */
     private void setupViewPager(ViewPager viewPager) {

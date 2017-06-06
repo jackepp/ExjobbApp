@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 
 import jake.activities.R;
 import jake.activities.TaskActivity;
@@ -38,12 +38,15 @@ import static jake.activities.LoginActivity.user;
  */
 public class PersonalFragment extends Fragment {
 
+
+
     private Integer points, rank, userId;
     private JsonObjectRequest jsonObjectRequest;
     private JsonArrayRequest jsonArrayRequest;
     private TextView name, level, pointView, badgeView, rankView;
     private String address, url, userLevel, userName, userBadges;
     private FloatingActionButton fab;
+    private ProgressBar progressBar;
 
     private static final String TAG = PersonalFragment.class.getName();
 
@@ -70,22 +73,23 @@ public class PersonalFragment extends Fragment {
         pointView = (TextView) v.findViewById(R.id.points);
         rankView = (TextView) v.findViewById(R.id.rank);
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
+        progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
 
         getAllInfo(v);
-        // Inflate the layout for this fragment
         return v;
     }
 
 
-    public void getAllInfo(View v){
+    public void getAllInfo(View v) {
 
         userName = user.getUserName();
-        userLevel = user.getUserLevel();
+        userLevel = user.getUserLevel().trim();
         address = user.getUserAddress();
         url = getResources().getString(R.string.base_url) + "/point/get?address=" + address;
 
         name.setText(userName);
         level.setText(userLevel);
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,8 +106,42 @@ public class PersonalFragment extends Fragment {
                         try {
                             points = Integer.parseInt(response.getString("points"));
                             pointView.setText(String.valueOf(points));
+                            //points = 100;
+                            int progress;
+                            Log.d(TAG, "points: " + String.valueOf(points));
+
+                            switch(userLevel){
+                                case "Beginner":
+                                    progress = (points / 10);   //0 base. 1k range.
+                                    Log.d(TAG, "progress: " + String.valueOf(progress));
+                                    progressBar.setProgress(progress);
+                                    break;
+                                case "Contributor":
+                                    progress = ( (points - 1000) / 20); //1000 base. 2k range.
+                                    progressBar.setProgress((int) progress);
+                                    break;
+                                case "Advanced Contributor":
+                                    progress = ((points - 3000) / 20);  //3000 base. 2k range.
+                                    progressBar.setProgress((int) progress);
+                                    break;
+                                case "Expert":
+                                    progress = ((points - 5000)/ 40); //5000 base. 4k range.
+                                    progressBar.setProgress((int) progress);
+                                    break;
+                                case "Master":
+                                    progress = 100;
+                                    progressBar.setProgress(progress);
+                                    break;
+                                default:
+                                    Log.d(TAG, "DEFAULT");
+                                    progressBar.setProgress(90);
+                                    break;
+
+                            }
+
+
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            Log.d("Error X ", e.toString());
                         }
 
                     }
@@ -132,7 +170,7 @@ public class PersonalFragment extends Fragment {
                     }
 
                 } catch (Exception e) {
-                    Log.e("Error", e.toString());
+                    Log.d("Error Y: ", e.toString());
                 }
             }
         },
@@ -150,9 +188,6 @@ public class PersonalFragment extends Fragment {
 
         url = getResources().getString(R.string.base_url) + "/user/badges?address=" + address;
 
-        Log.d(TAG, "url: " + url);
-        Log.d(TAG, "address: " + address);
-
         JsonArrayRequest arrayreq = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -161,23 +196,20 @@ public class PersonalFragment extends Fragment {
                     badgeView.setText(amountOfBadges.toString());
 
                 } catch (Exception e) {
-                    Log.e("Error", e.toString());
-                    badgeView.setText("0");
+                    Log.d("Error Z", e.toString());
+
                 }
             }
         },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("Error", error.toString());
+                        Log.d("Error C", error.toString());
                     }
                 }
         );
         Singleton.getInstance(getContext()).addToRequestQueue(arrayreq);
 
-
-
-
-
     }
+
 }

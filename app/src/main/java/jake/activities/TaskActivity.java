@@ -34,23 +34,21 @@ import jake.helpclasses.User;
 
 public class TaskActivity extends AppCompatActivity {
 
-    String url = "http://130.240.5.53:8080/tasks";
-    RequestQueue requestQueue;
-    ArrayList<Integer> timeList;
-    ArrayList<Task> taskList = new ArrayList<Task>();
-    Spinner spinnerTask;
-    Spinner spinnerTime;
-    ArrayAdapter<Task> adapter;
-    ArrayAdapter<Integer> timeAdapter;
+    private String url, address;
+    private ArrayList<Integer> timeList;
+    private ArrayList<Task> taskList = new ArrayList<Task>();
+    private Spinner spinnerTask, spinnerTime;
+    private ArrayAdapter<Task> adapter;
+    private ArrayAdapter<Integer> timeAdapter;
     private static final String TAG = TaskActivity.class.getName();
-    JsonObjectRequest jsonRequest;
+    private JsonObjectRequest jsonObjectRequest;
+    private JsonArrayRequest arrayreq;
 
+    private Integer selectedTaskId, selectedTime;
+    private Task task;
+    private Button bConfirmTask;
+    Toolbar toolbar;
 
-    Integer selectedTaskId;
-    Integer selectedTime;
-    Task task;
-    Button bConfirmTask;
-    String address;
 
 
 
@@ -58,6 +56,11 @@ public class TaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
+
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         spinnerTask = (Spinner) findViewById(R.id.spinnerTask);
         spinnerTime = (Spinner) findViewById(R.id.spinnerTime);
@@ -67,19 +70,17 @@ public class TaskActivity extends AppCompatActivity {
         fillSpinnerTime(5);
         timeAdapter = new ArrayAdapter<>(TaskActivity.this, R.layout.custom_spinner, R.id.spinnerContent, timeList);
         spinnerTime.setAdapter(timeAdapter);
+        url = getResources().getString(R.string.base_url) + "/tasks";
 
-        requestQueue = Volley.newRequestQueue(this);
-        JsonArrayRequest arrayreq = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+        arrayreq = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 try {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject jresponse = response.getJSONObject(i);
-                        //String temp = jresponse.g();
                         taskList.add(new Task(Integer.parseInt(jresponse.getString("id")),
                                 jresponse.getString("name"),
                                 Integer.parseInt(jresponse.getString("valuePerHour"))));
-                        //message.setText(taskList.get(i).getTaskId());
                     }
                     adapter = new ArrayAdapter<>(TaskActivity.this, R.layout.custom_spinner, R.id.spinnerContent, taskList);
                     spinnerTask.setAdapter(adapter);
@@ -93,15 +94,14 @@ public class TaskActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Log.e("Error", error.toString());
                     }
-                }
-        );
+                });
+        Singleton.getInstance(TaskActivity.this).addToRequestQueue(arrayreq);
 
         spinnerTask.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 task = (Task) parent.getItemAtPosition(position);
                 selectedTaskId = task.getTaskId();
-                //Toast.makeText(TaskActivity.this, task.getTaskId() + " selected.", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -113,7 +113,6 @@ public class TaskActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int time = (Integer) parent.getItemAtPosition(position);
                 selectedTime = time;
-                //Toast.makeText(TaskActivity.this, time + " selected.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -121,25 +120,21 @@ public class TaskActivity extends AppCompatActivity {
 
             }
         });
-        requestQueue.add(arrayreq);
-        //Log.d("TAG", "selectedTaskId: " + selectedTaskId.toString() + "selectedTime: " + selectedTime.toString());
-
 
         bConfirmTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(TaskActivity.this,"You completed task with id " + selectedTaskId + " in " + selectedTime + " hours.", Toast.LENGTH_SHORT).show();
                 address = LoginActivity.user.getUserAddress();
-                url = getResources().getString(R.string.base_url) + "/user/registertask?address="+ address + "&id=" + selectedTaskId + "&time=" + 7;
 
-                jsonRequest = new JsonObjectRequest
+                url = getResources().getString(R.string.base_url) + "/user/registertask?address="+ address + "&taskid=" + selectedTaskId + "&time=" + 7;
+
+                jsonObjectRequest = new JsonObjectRequest
                         (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 Toast.makeText(TaskActivity.this, "Completed task registered. Good job!", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(TaskActivity.this, ProfileActivity.class);
+                                Intent intent = new Intent(TaskActivity.this, MainActivity.class);
                                 startActivity(intent);
-
                             }
                         }, new Response.ErrorListener() {
                             @Override
@@ -147,27 +142,13 @@ public class TaskActivity extends AppCompatActivity {
                                 Toast.makeText(TaskActivity.this, "No response from web server.", Toast.LENGTH_SHORT).show();
                             }
                         });
-                Singleton.getInstance(TaskActivity.this).addToRequestQueue(jsonRequest);
-
-
-
+                Singleton.getInstance(TaskActivity.this).addToRequestQueue(jsonObjectRequest);
             }
         });
     }
-
-
-
-
-
-
-
-
     public void fillSpinnerTime(int maximumHours) {
-
         for (int i = 0; i <= maximumHours; i++) {
             timeList.add(i);
         }
-
     }
-
 }
