@@ -48,7 +48,7 @@ public class LoginActivity extends Activity {
                 email = etEmail.getText().toString();
                 password = etPassword.getText().toString();
 
-                url = getResources().getString(R.string.base_url) + "/signin?email=" + "jake@live.se" + "&password=" + "1";
+                url = getResources().getString(R.string.base_url) + "/signin?email=" + email + "&password=" + password;
 
                 //if (!(email.isEmpty()) && !(password.isEmpty())) {
                     jsonRequest = new JsonObjectRequest

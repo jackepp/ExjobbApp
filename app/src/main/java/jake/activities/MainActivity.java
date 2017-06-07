@@ -59,12 +59,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_signout:
-
+                LoginActivity.user.clearUser();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                intent.putExtra("finish", true);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                finish();
+
                 return true;
 
             case R.id.action_taskhistory:

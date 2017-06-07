@@ -49,20 +49,12 @@ public class TaskActivity extends AppCompatActivity {
     private Button bConfirmTask;
     Toolbar toolbar;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
         spinnerTask = (Spinner) findViewById(R.id.spinnerTask);
         spinnerTime = (Spinner) findViewById(R.id.spinnerTime);
         bConfirmTask = (Button) findViewById(R.id.bConfirmTask);

@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import jake.activities.LoginActivity;
 import jake.activities.R;
 import jake.activities.TaskActivity;
 import jake.helpclasses.Singleton;
@@ -39,11 +40,12 @@ import static jake.activities.LoginActivity.user;
 public class PersonalFragment extends Fragment {
 
 
-    private Integer points, rank, userId;
+    private Integer rank, userId;
+    public Integer points;
     private JsonObjectRequest jsonObjectRequest;
     private JsonArrayRequest jsonArrayRequest;
     private TextView name, level, pointView, badgeView, rankView;
-    private String address, url, userLevel, userName, userBadges;
+    private String address, url, userLevel, userName, userBadges, updatedUserLevel;
     private FloatingActionButton fab;
     private ProgressBar progressBar;
 
@@ -57,6 +59,8 @@ public class PersonalFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
 
@@ -74,22 +78,10 @@ public class PersonalFragment extends Fragment {
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
         progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
 
-        getAllInfo(v);
-        return v;
-    }
-
-
-    public void getAllInfo(View v) {
-
         userName = user.getUserName();
-        userLevel = user.getUserLevel().trim();
         address = user.getUserAddress();
-        url = getResources().getString(R.string.base_url) + "/point/get?address=" + address;
 
         name.setText(userName);
-        level.setText(userLevel);
-
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,63 +90,25 @@ public class PersonalFragment extends Fragment {
             }
         });
 
-        jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            points = Integer.parseInt(response.getString("points"));
-                            pointView.setText(String.valueOf(points));
-                            //points = 100;
-                            int progress;
-                            Log.d(TAG, "points: " + String.valueOf(points));
-
-                            switch (userLevel) {
-                                case "Beginner":
-                                    progress = (points / 10);   //0 base. 1k range.
-                                    Log.d(TAG, "progress: " + String.valueOf(progress));
-                                    progressBar.setProgress(progress);
-                                    break;
-                                case "Contributor":
-                                    progress = ((points - 1000) / 20); //1000 base. 2k range.
-                                    progressBar.setProgress((int) progress);
-                                    break;
-                                case "Advanced Contributor":
-                                    progress = ((points - 3000) / 20);  //3000 base. 2k range.
-                                    progressBar.setProgress((int) progress);
-                                    break;
-                                case "Expert":
-                                    progress = ((points - 5000) / 40); //5000 base. 4k range.
-                                    progressBar.setProgress((int) progress);
-                                    break;
-                                case "Master":
-                                    progress = 100;
-                                    progressBar.setProgress(progress);
-                                    break;
-                                default:
-                                    Log.d(TAG, "DEFAULT");
-                                    progressBar.setProgress(90);
-                                    break;
-
-                            }
+        userId = user.getUserid();
+        userLevel = user.getUserLevel();
 
 
-                        } catch (JSONException e) {
-                            Log.d("Error X ", e.toString());
-                        }
+        Log.d("TAG", "level before setuserlevel: " + userLevel);
 
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), "No response from web server while getting points.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-        Singleton.getInstance(getActivity()).addToRequestQueue(jsonObjectRequest);
+        setUserLevel(v);
+
+        Log.d("TAG", "level after setuserlevel: " + userLevel);
+        setUserRank(v);
+        setUserPointsAndProgressBar(v);
+        setUserBadges();
+
+        return v;
+    }
+
+    public void setUserRank(View v) {
 
         url = getResources().getString(R.string.base_url) + "/scoreboard";
-        userId = user.getUserid();
-
         jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -182,8 +136,112 @@ public class PersonalFragment extends Fragment {
                 }
         );
         Singleton.getInstance(getContext()).addToRequestQueue(jsonArrayRequest);
+    }
 
-        address = user.getUserAddress();
+    public void setUserLevel(View v) {
+        Log.d("TAG", "address:" + address);
+        url = getResources().getString(R.string.base_url) + "/user/get?id=" + userId;
+
+        Log.d("TAG", "Url: "+ url);
+
+        jsonObjectRequest = new
+
+                JsonObjectRequest
+                (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            userLevel = response.getString("level");
+                            level.setText(userLevel);
+                            LoginActivity.user.setUserLevel(userLevel);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener()
+
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), "No response from web server while getting level.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        Singleton.getInstance(getActivity()).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public void setUserPointsAndProgressBar(View v) {
+        url = getResources().getString(R.string.base_url) + "/point/get?address=" + address;
+
+        jsonObjectRequest = new
+
+                JsonObjectRequest
+                (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            points = Integer.parseInt(response.getString("points"));
+                            pointView.setText(String.valueOf(points));
+                            Integer progress;
+                            Log.d(TAG, "points: " + String.valueOf(points));
+
+                            updatedUserLevel = LoginActivity.user.getUserLevel().trim();
+                            Log.d("TAG", "före switch etUserLevel: " + updatedUserLevel);
+
+                            switch (updatedUserLevel) {
+                                case "Beginner":
+                                    progress = (points / 10);   //0 base. 1k range.
+                                    Log.d(TAG, "BEGINNER: progress: " + progress.toString());
+                                    progressBar.setProgress(progress);
+                                    break;
+                                case "Contributor":
+                                    progress = ((points - 1000) / 20); //1000 base. 2k range.
+                                    Log.d(TAG, "CONT: progress: " + progress.toString());
+                                    progressBar.setProgress((int) progress);
+                                    break;
+                                case "Advanced Contributor":
+                                    progress = ((points - 3000) / 20);  //3000 base. 2k range.
+                                    Log.d(TAG, "ADV CONT: progress: " + progress.toString());
+                                    progressBar.setProgress((int) progress);
+                                    break;
+                                case "Expert":
+
+                                    progress = ((points - 5000) / 50); //5000 base. 5k range.
+
+                                    Log.d("TAG", "EXPERT: progress = "+ progress.toString());
+                                    progressBar.setProgress((int) progress);
+                                    break;
+                                case "Master":
+                                    Log.d("TAG", "MASTER");
+                                    progress = 100;
+                                    progressBar.setProgress(progress);
+                                    break;
+                                default:
+                                    Log.d(TAG, "DEFAULT");
+                                    progressBar.setProgress(90);
+                                    break;
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            Log.d("Error X ", e.toString());
+                        }
+
+                    }
+                }, new Response.ErrorListener()
+
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), "No response from web server while getting points.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        Singleton.getInstance(getActivity()).addToRequestQueue(jsonObjectRequest);
+
+    }
+
+
+    public void setUserBadges() {
 
         url = getResources().getString(R.string.base_url) + "/user/badges?address=" + address;
 
@@ -208,7 +266,7 @@ public class PersonalFragment extends Fragment {
                 }
         );
         Singleton.getInstance(getContext()).addToRequestQueue(arrayreq);
-
     }
+
 
 }

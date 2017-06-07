@@ -44,6 +44,41 @@ public class User {
         return level;
     }
 
+    public void setUserLevel(String lvl) {
+        this.level = lvl;
+    }
+
+    public void clearUser(){
+        this.id = 0;
+        this.address = "";
+        this.name = "";
+        this.level = "";
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public void setPoints(String points) {
+        this.points = points;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
+
     public String getUserPoints() {
         return points;
     }
