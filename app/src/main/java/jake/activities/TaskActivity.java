@@ -50,6 +50,8 @@ public class TaskActivity extends AppCompatActivity {
     Toolbar toolbar;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +59,9 @@ public class TaskActivity extends AppCompatActivity {
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //setSupportActionBar(toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         spinnerTask = (Spinner) findViewById(R.id.spinnerTask);
         spinnerTime = (Spinner) findViewById(R.id.spinnerTime);
@@ -76,9 +79,7 @@ public class TaskActivity extends AppCompatActivity {
                 try {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject jresponse = response.getJSONObject(i);
-                        taskList.add(new Task(Integer.parseInt(jresponse.getString("id")),
-                                jresponse.getString("name"),
-                                Integer.parseInt(jresponse.getString("valuePerHour"))));
+                        taskList.add(new Task(jresponse));
                     }
                     adapter = new ArrayAdapter<>(TaskActivity.this, R.layout.custom_spinner, R.id.spinnerContent, taskList);
                     spinnerTask.setAdapter(adapter);
@@ -101,7 +102,6 @@ public class TaskActivity extends AppCompatActivity {
                 task = (Task) parent.getItemAtPosition(position);
                 selectedTaskId = task.getTaskId();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -125,7 +125,7 @@ public class TaskActivity extends AppCompatActivity {
             public void onClick(View v) {
                 address = LoginActivity.user.getUserAddress();
 
-                url = getResources().getString(R.string.base_url) + "/user/registertask?address=" + address + "&taskid=" + selectedTaskId + "&time=" + 7;
+                url = getResources().getString(R.string.base_url) + "/user/registertask?address="+ address + "&taskid=" + selectedTaskId + "&time=" + 7;
 
                 jsonObjectRequest = new JsonObjectRequest
                         (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
@@ -145,9 +145,8 @@ public class TaskActivity extends AppCompatActivity {
             }
         });
     }
-
     public void fillSpinnerTime(int maximumHours) {
-        for (int i = 0; i <= maximumHours; i++) {
+        for (int i = 1; i <= maximumHours; i++) {
             timeList.add(i);
         }
     }

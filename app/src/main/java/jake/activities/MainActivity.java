@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         setSupportActionBar(toolbar);
-        toolbar.setTitle("");
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
@@ -67,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 return true;
+
+            case R.id.action_taskhistory:
+                startActivity(new Intent(this, TaskHistory.class));
         }
 
         return super.onOptionsItemSelected(item);

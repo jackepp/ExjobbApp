@@ -48,9 +48,9 @@ public class LoginActivity extends Activity {
                 email = etEmail.getText().toString();
                 password = etPassword.getText().toString();
 
-                url = getResources().getString(R.string.base_url) + "/signin?email=" + email + "&password=" + password;
+                url = getResources().getString(R.string.base_url) + "/signin?email=" + "jake@live.se" + "&password=" + "1";
 
-                if (!(email.isEmpty()) && !(password.isEmpty())) {
+                //if (!(email.isEmpty()) && !(password.isEmpty())) {
                     jsonRequest = new JsonObjectRequest
                             (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
                                 @Override
@@ -77,11 +77,11 @@ public class LoginActivity extends Activity {
                                 }
                             });
                     Singleton.getInstance(LoginActivity.this).addToRequestQueue(jsonRequest);
-                } else {
-                    Toast.makeText(LoginActivity.this, "Please enter a value in both inputs", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
+                } //else {
+                   // Toast.makeText(LoginActivity.this, "Please enter a value in both inputs", Toast.LENGTH_SHORT).show();
+                    //return;
+                //}
+        //    }
         });
     }
 }

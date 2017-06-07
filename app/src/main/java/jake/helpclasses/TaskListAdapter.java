@@ -12,15 +12,15 @@ import java.util.ArrayList;
 
 import jake.activities.R;
 
-public class BadgeListAdapter extends ArrayAdapter<Badge> {
+public class TaskListAdapter extends ArrayAdapter<Task> {
 
     private LayoutInflater mInflater;
-    private ArrayList<Badge> badges;
+    private ArrayList<Task> tasks;
     private int mViewResourceId;
 
-    public BadgeListAdapter(Context context, int textViewResourceId, ArrayList<Badge> badges) {
-        super(context, textViewResourceId, badges);
-        this.badges = badges;
+    public TaskListAdapter(Context context, int textViewResourceId, ArrayList<Task> tasks) {
+        super(context, textViewResourceId, tasks);
+        this.tasks = tasks;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mViewResourceId = textViewResourceId;
     }
@@ -28,18 +28,18 @@ public class BadgeListAdapter extends ArrayAdapter<Badge> {
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = mInflater.inflate(mViewResourceId, null);
 
-        Badge badge = badges.get(position);
+        Task task = tasks.get(position);
 
         TextView name = (TextView) convertView.findViewById(R.id.name);
-        TextView desc = (TextView) convertView.findViewById(R.id.desc);
+        TextView time = (TextView) convertView.findViewById(R.id.time);
 
-        if (badge != null) {
+        if (task != null) {
         }
         if (name != null) {
-            name.setText(badge.toString());
+            name.setText(task.toString());
         }
-        if (desc != null) {
-            desc.setText(badge.getBadgeDesc());
+        if (time != null) {
+            time.setText(task.getValuePerHouR());
         }
 
         return convertView;

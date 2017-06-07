@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Järva Motorklubb</string>
     <string name="base_url">http://130.240.5.53:8080</string>
+    <string name="gridtext_size">16dp</string>
 
 
 </resources>

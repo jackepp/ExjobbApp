@@ -4,14 +4,24 @@
     android:fitsSystemWindows="true">
 
     <item
+        android:id="@+id/action_taskhistory"
+        android:orderInCategory="100"
+        android:title="Task history"
+        app:showAsAction="never" />
+
+
+    <item
         android:id="@+id/action_changepassword"
         android:title="Change password"
+        android:orderInCategory="200"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_signout"
-        android:orderInCategory="100"
+        android:orderInCategory="300"
         android:title="Sign out"
-        app:showAsAction="never" />/>
+        app:showAsAction="never"/>
+
+
 
 </menu>
