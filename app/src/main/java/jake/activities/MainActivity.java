@@ -9,10 +9,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
-
                 return true;
         }
 
@@ -77,25 +76,23 @@ public class MainActivity extends AppCompatActivity {
      * Adding custom view to tab
      */
     private void setupTabIcons() {
+        TextView personalTab = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        personalTab.setText("Personal");
+        personalTab.setGravity(Gravity.CENTER_HORIZONTAL);
+        personalTab.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.person_white, 0, 0);
+        tabLayout.getTabAt(0).setCustomView(personalTab);
 
-        TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tabOne.setText("Personal");
-        tabOne.setGravity(View.TEXT_ALIGNMENT_CENTER);
-        tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.person_white, 0, 0);
-        tabLayout.getTabAt(0).setCustomView(tabOne);
+        TextView teamTab = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        teamTab.setText("Team");
+        teamTab.setGravity(Gravity.CENTER_HORIZONTAL);
+        teamTab.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.leaderboard_white, 0, 0);
+        tabLayout.getTabAt(1).setCustomView(teamTab);
 
-        TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tabTwo.setText("Team");
-        tabOne.setGravity(View.TEXT_ALIGNMENT_CENTER);
-        tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.leaderboard_white, 0, 0);
-        tabLayout.getTabAt(1).setCustomView(tabTwo);
-
-
-        TextView tabThree = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tabThree.setText("Badges");
-        tabOne.setGravity(View.TEXT_ALIGNMENT_CENTER);
-        tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.star_white, 0, 0);
-        tabLayout.getTabAt(2).setCustomView(tabThree);
+        TextView badgesTab = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        badgesTab.setText("Badges");
+        badgesTab.setGravity(Gravity.CENTER_HORIZONTAL);
+        badgesTab.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.star_white, 0, 0);
+        tabLayout.getTabAt(2).setCustomView(badgesTab);
     }
 
     /**

@@ -50,8 +50,6 @@ public class TaskActivity extends AppCompatActivity {
     Toolbar toolbar;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +101,7 @@ public class TaskActivity extends AppCompatActivity {
                 task = (Task) parent.getItemAtPosition(position);
                 selectedTaskId = task.getTaskId();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -126,7 +125,7 @@ public class TaskActivity extends AppCompatActivity {
             public void onClick(View v) {
                 address = LoginActivity.user.getUserAddress();
 
-                url = getResources().getString(R.string.base_url) + "/user/registertask?address="+ address + "&taskid=" + selectedTaskId + "&time=" + 7;
+                url = getResources().getString(R.string.base_url) + "/user/registertask?address=" + address + "&taskid=" + selectedTaskId + "&time=" + 7;
 
                 jsonObjectRequest = new JsonObjectRequest
                         (Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
@@ -146,6 +145,7 @@ public class TaskActivity extends AppCompatActivity {
             }
         });
     }
+
     public void fillSpinnerTime(int maximumHours) {
         for (int i = 0; i <= maximumHours; i++) {
             timeList.add(i);

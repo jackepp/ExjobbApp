@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
 import jake.activities.R;
 import jake.helpclasses.Badge;
 import jake.helpclasses.BadgeListAdapter;
@@ -53,7 +54,7 @@ public class BadgeFragment extends Fragment {
 
         getAllInfo(v);
 
-      return v;
+        return v;
     }
 
 

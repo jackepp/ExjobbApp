@@ -9,8 +9,7 @@ import org.json.JSONObject;
 
 public class Badge {
     private int id;
-    private String name;
-    private String desc;
+    private String name, desc;
 
     public Badge(JSONObject info) {
         try {
@@ -22,15 +21,16 @@ public class Badge {
         }
     }
 
-    public int getBadgeId(){
+    public int getBadgeId() {
         return id;
     }
 
-    public String getBadgeDesc(){
+    public String getBadgeDesc() {
         return desc;
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return name;
     }
 

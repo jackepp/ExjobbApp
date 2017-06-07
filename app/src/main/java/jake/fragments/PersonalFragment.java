@@ -39,7 +39,6 @@ import static jake.activities.LoginActivity.user;
 public class PersonalFragment extends Fragment {
 
 
-
     private Integer points, rank, userId;
     private JsonObjectRequest jsonObjectRequest;
     private JsonArrayRequest jsonArrayRequest;
@@ -110,14 +109,14 @@ public class PersonalFragment extends Fragment {
                             int progress;
                             Log.d(TAG, "points: " + String.valueOf(points));
 
-                            switch(userLevel){
+                            switch (userLevel) {
                                 case "Beginner":
                                     progress = (points / 10);   //0 base. 1k range.
                                     Log.d(TAG, "progress: " + String.valueOf(progress));
                                     progressBar.setProgress(progress);
                                     break;
                                 case "Contributor":
-                                    progress = ( (points - 1000) / 20); //1000 base. 2k range.
+                                    progress = ((points - 1000) / 20); //1000 base. 2k range.
                                     progressBar.setProgress((int) progress);
                                     break;
                                 case "Advanced Contributor":
@@ -125,7 +124,7 @@ public class PersonalFragment extends Fragment {
                                     progressBar.setProgress((int) progress);
                                     break;
                                 case "Expert":
-                                    progress = ((points - 5000)/ 40); //5000 base. 4k range.
+                                    progress = ((points - 5000) / 40); //5000 base. 4k range.
                                     progressBar.setProgress((int) progress);
                                     break;
                                 case "Master":
