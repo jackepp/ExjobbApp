@@ -17,12 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity" />
         <activity android:name=".TaskActivity" />
-        <activity android:name=".ProfileActivity" />
         <activity android:name=".TeamActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".SettingsActivity" />
         <activity android:name=".ChangePasswordActivity"></activity>
         <activity android:name=".TaskHistory"></activity>
     </application>
